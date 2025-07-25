@@ -1,0 +1,14 @@
+{
+  "/favicon.ico/route": "/favicon.ico",
+  "/_not-found/page": "/_not-found",
+  "/admin/page": "/admin",
+  "/auth-redirect/page": "/auth-redirect",
+  "/dashboard/admin/page": "/dashboard/admin",
+  "/dashboard/salesperson/page": "/dashboard/salesperson",
+  "/dotmatrix/page": "/dotmatrix",
+  "/home/page": "/home",
+  "/landingpage/page": "/landingpage",
+  "/page": "/",
+  "/products/page": "/products",
+  "/invoice/page": "/invoice"
+}

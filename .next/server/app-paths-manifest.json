@@ -1,0 +1,14 @@
+{
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/auth-redirect/page": "app/auth-redirect/page.js",
+  "/dashboard/admin/page": "app/dashboard/admin/page.js",
+  "/dashboard/salesperson/page": "app/dashboard/salesperson/page.js",
+  "/dotmatrix/page": "app/dotmatrix/page.js",
+  "/home/page": "app/home/page.js",
+  "/landingpage/page": "app/landingpage/page.js",
+  "/page": "app/page.js",
+  "/products/page": "app/products/page.js",
+  "/invoice/page": "app/invoice/page.js"
+}

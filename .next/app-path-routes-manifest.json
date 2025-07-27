@@ -3,12 +3,12 @@
   "/favicon.ico/route": "/favicon.ico",
   "/admin/page": "/admin",
   "/auth-redirect/page": "/auth-redirect",
-  "/dashboard/salesperson/page": "/dashboard/salesperson",
-  "/dashboard/admin/page": "/dashboard/admin",
   "/dotmatrix/page": "/dotmatrix",
-  "/landingpage/page": "/landingpage",
-  "/home/page": "/home",
+  "/dashboard/admin/page": "/dashboard/admin",
+  "/dashboard/salesperson/page": "/dashboard/salesperson",
   "/page": "/",
+  "/home/page": "/home",
   "/products/page": "/products",
+  "/landingpage/page": "/landingpage",
   "/invoice/page": "/invoice"
 }

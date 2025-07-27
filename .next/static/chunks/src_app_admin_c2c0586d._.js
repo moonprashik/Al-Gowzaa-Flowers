@@ -1548,11 +1548,12 @@ var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_
 // 'use client';
 // import { useState } from 'react';
 // import CustomerPopup, { CustomerData } from './CustomerPopup';
+// import LoginPopup, { LoginUser } from './LoginPopup';
 // const popups = [
 //   'Stocks',
 //   'Orders Summary',
 //   'Customer Profile Management',
-//   'Customer ',
+//   'User Logins ', // This will be Login
 //   'Site Analytics',
 //   'System Logs',
 // ];
@@ -1590,6 +1591,7 @@ var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_
 //       managedBy: 'Riyadh',
 //     },
 //   ]);
+//   const [users, setUsers] = useState<LoginUser[]>([]);
 //   return (
 //     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 text-black flex items-center justify-center px-4 py-10">
 //       <div className="w-full max-w-6xl mx-auto text-center">
@@ -1607,14 +1609,24 @@ var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_
 //             </button>
 //           ))}
 //         </div>
-//         {openIndex !== null && (
+//         {/* Show CustomerPopup for everything except index 3 */}
+//         {openIndex !== null && openIndex !== 3 && (
 //           <CustomerPopup
-//             open={openIndex !== null}
+//             open={true}
 //             onClose={() => setOpenIndex(null)}
 //             popups={popups}
 //             index={openIndex}
 //             database={database}
 //             setDatabase={setDatabase}
+//           />
+//         )}
+//         {/* Show LoginPopup on 4th button */}
+//         {openIndex === 3 && (
+//           <LoginPopup
+//             open={true}
+//             onClose={() => setOpenIndex(null)}
+//             users={users}
+//             setUsers={setUsers}
 //           />
 //         )}
 //       </div>
@@ -1628,9 +1640,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$CustomerPopup$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/admin/CustomerPopup.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$LoginPopup$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/admin/LoginPopup.tsx [app-client] (ecmascript)");
+(()=>{
+    const e = new Error("Cannot find module './StocksPopup'");
+    e.code = 'MODULE_NOT_FOUND';
+    throw e;
+})();
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -1638,13 +1656,14 @@ const popups = [
     'Stocks',
     'Orders Summary',
     'Customer Profile Management',
-    'User Logins ',
+    'User Logins',
     'Site Analytics',
     'System Logs'
 ];
 function AdminPage() {
     _s();
     const [openIndex, setOpenIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [showStocksPopup, setShowStocksPopup] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [database, setDatabase] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
         {
             name: 'Alice Smith',
@@ -1677,34 +1696,51 @@ function AdminPage() {
             managedBy: 'Riyadh'
         }
     ]);
-    const [users, setUsers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [users, setUsers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
+        {
+            email: 'admin@example.com',
+            password: 'password123'
+        },
+        {
+            email: 'manager@example.com',
+            password: 'secure456'
+        }
+    ]);
+    const handlePopupOpen = (index)=>{
+        if (index === 0) {
+            setShowStocksPopup(true);
+            setOpenIndex(null);
+        } else {
+            setOpenIndex(index);
+        }
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 text-black flex items-center justify-center px-4 py-10",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "w-full max-w-6xl mx-auto text-center",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                    className: "text-4xl md:text-5xl font-bold mb-10 text-indigo-800",
+                    className: "text-4xl md:text-5xl font-bold mb-10 text-indigo-800 text-left",
                     children: "Admin Dashboard"
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/page.tsx",
-                    lineNumber: 144,
+                    lineNumber: 178,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6",
                     children: popups.map((title, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             className: "bg-indigo-600 text-white font-medium py-4 px-6 rounded-xl shadow-lg hover:bg-indigo-700 transition-all",
-                            onClick: ()=>setOpenIndex(index),
+                            onClick: ()=>handlePopupOpen(index),
                             children: title
                         }, index, false, {
                             fileName: "[project]/src/app/admin/page.tsx",
-                            lineNumber: 150,
+                            lineNumber: 184,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/page.tsx",
-                    lineNumber: 148,
+                    lineNumber: 182,
                     columnNumber: 9
                 }, this),
                 openIndex !== null && openIndex !== 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$CustomerPopup$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1716,7 +1752,7 @@ function AdminPage() {
                     setDatabase: setDatabase
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/page.tsx",
-                    lineNumber: 162,
+                    lineNumber: 196,
                     columnNumber: 11
                 }, this),
                 openIndex === 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$admin$2f$LoginPopup$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1726,22 +1762,30 @@ function AdminPage() {
                     setUsers: setUsers
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/page.tsx",
-                    lineNumber: 174,
+                    lineNumber: 208,
+                    columnNumber: 11
+                }, this),
+                showStocksPopup && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(StocksPopup, {
+                    open: showStocksPopup,
+                    onClose: ()=>setShowStocksPopup(false)
+                }, void 0, false, {
+                    fileName: "[project]/src/app/admin/page.tsx",
+                    lineNumber: 218,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/admin/page.tsx",
-            lineNumber: 143,
+            lineNumber: 177,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/admin/page.tsx",
-        lineNumber: 142,
+        lineNumber: 176,
         columnNumber: 5
     }, this);
 }
-_s(AdminPage, "tLuc6reQj0nWlqsmY2QMr24JRN0=");
+_s(AdminPage, "kE3xgKU3vW8Z5kgXT2OYr6L/u2Q=");
 _c = AdminPage;
 var _c;
 __turbopack_context__.k.register(_c, "AdminPage");

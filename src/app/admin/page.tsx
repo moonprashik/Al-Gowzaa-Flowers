@@ -1,17 +1,17 @@
 
 
 
-
 // 'use client';
 
 // import { useState } from 'react';
 // import CustomerPopup, { CustomerData } from './CustomerPopup';
+// import LoginPopup, { LoginUser } from './LoginPopup';
 
 // const popups = [
 //   'Stocks',
 //   'Orders Summary',
 //   'Customer Profile Management',
-//   'Customer ',
+//   'User Logins ', // This will be Login
 //   'Site Analytics',
 //   'System Logs',
 // ];
@@ -51,6 +51,8 @@
 //     },
 //   ]);
 
+//   const [users, setUsers] = useState<LoginUser[]>([]);
+
 //   return (
 //     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 text-black flex items-center justify-center px-4 py-10">
 //       <div className="w-full max-w-6xl mx-auto text-center">
@@ -70,14 +72,25 @@
 //           ))}
 //         </div>
 
-//         {openIndex !== null && (
+//         {/* Show CustomerPopup for everything except index 3 */}
+//         {openIndex !== null && openIndex !== 3 && (
 //           <CustomerPopup
-//             open={openIndex !== null}
+//             open={true}
 //             onClose={() => setOpenIndex(null)}
 //             popups={popups}
 //             index={openIndex}
 //             database={database}
 //             setDatabase={setDatabase}
+//           />
+//         )}
+
+//         {/* Show LoginPopup on 4th button */}
+//         {openIndex === 3 && (
+//           <LoginPopup
+//             open={true}
+//             onClose={() => setOpenIndex(null)}
+//             users={users}
+//             setUsers={setUsers}
 //           />
 //         )}
 //       </div>
@@ -91,18 +104,21 @@
 import { useState } from 'react';
 import CustomerPopup, { CustomerData } from './CustomerPopup';
 import LoginPopup, { LoginUser } from './LoginPopup';
+import StocksPopup from './Stocks';
 
 const popups = [
   'Stocks',
   'Orders Summary',
   'Customer Profile Management',
-  'User Logins ', // This will be Login
+  'User Logins', // Login popup
   'Site Analytics',
   'System Logs',
 ];
 
 export default function AdminPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showStocksPopup, setShowStocksPopup] = useState(false);
+
   const [database, setDatabase] = useState<CustomerData[]>([
     {
       name: 'Alice Smith',
@@ -136,12 +152,30 @@ export default function AdminPage() {
     },
   ]);
 
-  const [users, setUsers] = useState<LoginUser[]>([]);
+  const [users, setUsers] = useState<LoginUser[]>([
+    {
+      email: 'admin@example.com',
+      password: 'password123',
+    },
+    {
+      email: 'manager@example.com',
+      password: 'secure456',
+    },
+  ]);
+
+  const handlePopupOpen = (index: number) => {
+    if (index === 0) {
+      setShowStocksPopup(true);
+      setOpenIndex(null);
+    } else {
+      setOpenIndex(index);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 text-black flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-6xl mx-auto text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-10 text-indigo-800">
+        <h1 className="text-4xl md:text-5xl font-bold mb-10 text-indigo-800 text-left">
           Admin Dashboard
         </h1>
 
@@ -150,14 +184,14 @@ export default function AdminPage() {
             <button
               key={index}
               className="bg-indigo-600 text-white font-medium py-4 px-6 rounded-xl shadow-lg hover:bg-indigo-700 transition-all"
-              onClick={() => setOpenIndex(index)}
+              onClick={() => handlePopupOpen(index)}
             >
               {title}
             </button>
           ))}
         </div>
 
-        {/* Show CustomerPopup for everything except index 3 */}
+        {/* Customer Popup: all except index 0 and 3 */}
         {openIndex !== null && openIndex !== 3 && (
           <CustomerPopup
             open={true}
@@ -169,7 +203,7 @@ export default function AdminPage() {
           />
         )}
 
-        {/* Show LoginPopup on 4th button */}
+        {/* Login Popup: index 3 */}
         {openIndex === 3 && (
           <LoginPopup
             open={true}
@@ -177,6 +211,11 @@ export default function AdminPage() {
             users={users}
             setUsers={setUsers}
           />
+        )}
+
+        {/* Stocks Popup: index 0 */}
+        {showStocksPopup && (
+          <StocksPopup open={showStocksPopup} onClose={() => setShowStocksPopup(false)} />
         )}
       </div>
     </div>

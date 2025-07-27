@@ -1,56 +1,56 @@
-// import React from 'react'
+import React from 'react'
 
-// //import LandingPage from './landingpage/page'
-// //import DotMatrix from './dotmatrix/page'
-// import Admin from './admin/page'
+//import LandingPage from './landingpage/page'
+//import DotMatrix from './dotmatrix/page'
+import Admin from './admin/page'
 
-// export default function page() {
+export default function page() {
   
-//   return (
-//   //  <DotMatrix/>
-//   //<LandingPage/>
-//   <Admin/>
-//   )
-// }
-
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-
-export default function HomePage() {
-  const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // Ensure we're on the client side
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient) return; // wait until client renders
-
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-
-    console.log('Token:', token);
-    console.log('Role:', role);
-
-    if (token && role) {
-      if (role === 'admin') {
-        router.replace('/home');
-      } else if (role === 'salesperson') {
-        router.replace('/dashboard/salesperson');
-      } else {
-        router.replace('/login');
-      }
-    } else {
-      router.replace('/landingpage');
-    }
-  }, [isClient, router]);
-
-  return <div className="p-6 text-center">Redirecting...</div>;
+  return (
+  //  <DotMatrix/>
+  //<LandingPage/>
+  <Admin/>
+  )
 }
+
+// 'use client';
+
+// import { useEffect, useState } from 'react';
+// import { useRouter } from 'next/navigation';
+
+// export default function HomePage() {
+//   const router = useRouter();
+//   const [isClient, setIsClient] = useState(false);
+
+//   useEffect(() => {
+//     // Ensure we're on the client side
+//     setIsClient(true);
+//   }, []);
+
+//   useEffect(() => {
+//     if (!isClient) return; // wait until client renders
+
+//     const token = localStorage.getItem('token');
+//     const role = localStorage.getItem('role');
+
+//     console.log('Token:', token);
+//     console.log('Role:', role);
+
+//     if (token && role) {
+//       if (role === 'admin') {
+//         router.replace('/home');
+//       } else if (role === 'salesperson') {
+//         router.replace('/dashboard/salesperson');
+//       } else {
+//         router.replace('/login');
+//       }
+//     } else {
+//       router.replace('/landingpage');
+//     }
+//   }, [isClient, router]);
+
+//   return <div className="p-6 text-center">Redirecting...</div>;
+// }
 
 
 

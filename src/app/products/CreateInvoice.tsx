@@ -513,7 +513,10 @@ interface RequestBody {
   product: number[];
   quantity: number[];
   price: number[];
+  branch: string;
+  branch_category: string;
 }
+
 
 function Products() {
   const router = useRouter();
@@ -524,7 +527,7 @@ function Products() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [locations, setLocations] = useState<string>("");
+  const [locations, setLocations ] = useState<string>("");
   const [selectedTab, setSelectedTab] = useState<string>("home");
 
   const [productsList, setProductsList] = useState<Product[]>([]);
@@ -537,11 +540,16 @@ function Products() {
   const [prices, setPrices] = useState<{ [key: number]: string }>({});
   const [customerName, setCustomerName] = useState('');
   const [vatNumber, setVatNumber] = useState('');
+
+  const [branch, setBranch] = useState('');
+  const [branchCategory, setBranchCategory] = useState('');
   //const [loc, setLocation] = useState('');
 
 
 
-  const token = localStorage.getItem('token') 
+   const token = localStorage.getItem('token') 
+  //const token = JSON.parse(localStorage.getItem('token') || '');
+
 console.log( "Token from Async storage. ----->",token)
 
 
@@ -568,7 +576,8 @@ console.log( "Token from Async storage. ----->",token)
       setApiProducts(json.data);
       setFilteredProducts(json.data);
       setProductsList(json.data); // ✅ For dropdown
-      setLocations(`${location} ( ${option} )`);
+      setBranch(`${location}`);
+      setBranchCategory(`${option}`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An unknown error occurred");
     } finally {
@@ -610,58 +619,128 @@ console.log( "Token from Async storage. ----->",token)
     });
   };
 
+  // const handleSubmit = async (e: FormEvent) => {
+  //   e.preventDefault();
+
+  //   if (!customerName.trim() || !vatNumber.trim() || !locations.trim()) {
+  //     alert('Please fill in customer name, VAT number, and location');
+  //     return;
+  //   }
+
+  //   const filteredProducts = selectedProducts.filter((p): p is number => p !== '');
+  //   if (filteredProducts.length === 0) {
+  //     alert('Please select at least one product');
+  //     return;
+  //   }
+
+  //   const body: RequestBody = {
+  //     customer_name: customerName,
+  //     vat_number: vatNumber,
+  //     location: locations,
+  //     product: filteredProducts,
+  //     quantity: filteredProducts.map((_, i) => parseInt(quantities[i]) || 1),
+  //     price: filteredProducts.map((_, i) => parseFloat(prices[i]) || 0),
+  //   };
+
+  //   try {
+  //           // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiN2QwYWRjYjQwNTJiZjg3YmRjOTlhZGU4YjBlYWRhMDY4NDRiYjg5M2NjNWEyYTI5MDQ2MjQxYmI4YzUzZWY5NjdmMzQ1NjcxN2M2NzVhMDUiLCJpYXQiOjE3NTE3ODgzNjMuNjU0MDUwMTExNzcwNjI5ODgyODEyNSwibmJmIjoxNzUxNzg4MzYzLjY1NDA1MjAxOTExOTI2MjY5NTMxMjUsImV4cCI6MTc4MzMyNDM2My42NDk2NjAxMTA0NzM2MzI4MTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.igdSA4vkVzbcutbdZ-5LQ1BHL_clASYcx_6QtnAcPocvWHFx_jGh2ViYMDvpuvNqFGMNall1KETKnp3C39C78XQSuetH5qDrpeAPcbPLUH6eqJ3EVSxo-vy64PyUm-yZ_qqyaSCVEAVbvLlvGPuAcLmfI081usjQsbKyDgRyFKEZrk37U_mveM2jWnYsn8T9L7BejYtGcj8CBHG4cT3O4oDumdRez1AQjP5LklvD3i74-npRx1W-qj48-35RzxFGOai5NVahUErerCYh5DxDD2ChDjEgFBm4nDFO5HTGGrLqBkRnJo3MD8mN5BC2VIFT5lFL8XG7o4c6QpnNZ1NPeE6YsV1Yy9pcoAj74xs3vq-mpHkm-o7DVyTpjGoiW4Br77n3C6IAKciSFcpjEZuXaxWpJ4yKdrxomk8hwrFscP7UbHMsHcFi54HuxkJ0fRmyyuKeT75gAx-eefQvI7QpOFJOcKpc39MOgDkpZN7fDM9Xak_wd3RypEZE24D7X6y_sTq15Ug60qsMUC3UWsQccil5nnW4wuRzh5ajGrCPhazAzrfiFLjZwhPfNdDAqbThBg-IZChrEEtje1vhuw_LQXDdsaBHbepfTPJ2ADPFhHBpg8JaLGa0PQrIDdx0DWnH-BVmIRLEU28rGOEsf4NPX6Wlli3_cavmUxB9-J_VABw'; // Replace with actual token
+
+  //     const res = await fetch('https://testing.algowzaa.online/api/invoice/create', {
+  //       method: 'POST',
+  //       headers: { 
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json' },
+  //       body: JSON.stringify(body),
+  //     });
+
+  //     if (res.ok) {
+  //       const responseData = await res.json();
+  //       const invoiceId = responseData.data.invoice_id;
+  //       alert('Order submitted successfully');
+  //       setSelectedProducts([]);
+  //       setQuantities({});
+  //       setPrices({});
+  //       setCustomerName('');
+  //       setVatNumber('');
+  //       router.push(`/invoice?invoice_id=${invoiceId}`);
+  //     } else {
+  //       alert('Failed to submit order');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error submitting order:', error);
+  //     alert('Error submitting order');
+  //   }
+  // };
+
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!customerName.trim() || !vatNumber.trim() || !locations.trim()) {
-      alert('Please fill in customer name, VAT number, and location');
-      return;
-    }
+  if (
+    !customerName.trim() ||
+    !vatNumber.trim() ||
+    !locations.trim() ||
+    !branch.trim() ||
+    !branchCategory.trim()
+  ) {
+    alert('Please fill in all required customer and branch details');
+    return;
+  }
 
-    const filteredProducts = selectedProducts.filter((p): p is number => p !== '');
-    if (filteredProducts.length === 0) {
-      alert('Please select at least one product');
-      return;
-    }
+  const filteredProducts = selectedProducts.filter((p): p is number => p !== '');
+  if (filteredProducts.length === 0) {
+    alert('Please select at least one product');
+    return;
+  }
 
-    const body: RequestBody = {
-      customer_name: customerName,
-      vat_number: vatNumber,
-      location: locations,
-      product: filteredProducts,
-      quantity: filteredProducts.map((_, i) => parseInt(quantities[i]) || 1),
-      price: filteredProducts.map((_, i) => parseFloat(prices[i]) || 0),
-    };
-
-    try {
-            // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiN2QwYWRjYjQwNTJiZjg3YmRjOTlhZGU4YjBlYWRhMDY4NDRiYjg5M2NjNWEyYTI5MDQ2MjQxYmI4YzUzZWY5NjdmMzQ1NjcxN2M2NzVhMDUiLCJpYXQiOjE3NTE3ODgzNjMuNjU0MDUwMTExNzcwNjI5ODgyODEyNSwibmJmIjoxNzUxNzg4MzYzLjY1NDA1MjAxOTExOTI2MjY5NTMxMjUsImV4cCI6MTc4MzMyNDM2My42NDk2NjAxMTA0NzM2MzI4MTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.igdSA4vkVzbcutbdZ-5LQ1BHL_clASYcx_6QtnAcPocvWHFx_jGh2ViYMDvpuvNqFGMNall1KETKnp3C39C78XQSuetH5qDrpeAPcbPLUH6eqJ3EVSxo-vy64PyUm-yZ_qqyaSCVEAVbvLlvGPuAcLmfI081usjQsbKyDgRyFKEZrk37U_mveM2jWnYsn8T9L7BejYtGcj8CBHG4cT3O4oDumdRez1AQjP5LklvD3i74-npRx1W-qj48-35RzxFGOai5NVahUErerCYh5DxDD2ChDjEgFBm4nDFO5HTGGrLqBkRnJo3MD8mN5BC2VIFT5lFL8XG7o4c6QpnNZ1NPeE6YsV1Yy9pcoAj74xs3vq-mpHkm-o7DVyTpjGoiW4Br77n3C6IAKciSFcpjEZuXaxWpJ4yKdrxomk8hwrFscP7UbHMsHcFi54HuxkJ0fRmyyuKeT75gAx-eefQvI7QpOFJOcKpc39MOgDkpZN7fDM9Xak_wd3RypEZE24D7X6y_sTq15Ug60qsMUC3UWsQccil5nnW4wuRzh5ajGrCPhazAzrfiFLjZwhPfNdDAqbThBg-IZChrEEtje1vhuw_LQXDdsaBHbepfTPJ2ADPFhHBpg8JaLGa0PQrIDdx0DWnH-BVmIRLEU28rGOEsf4NPX6Wlli3_cavmUxB9-J_VABw'; // Replace with actual token
-
-      const res = await fetch('https://testing.algowzaa.online/api/invoice/create', {
-        method: 'POST',
-        headers: { 
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-
-      if (res.ok) {
-        const responseData = await res.json();
-        const invoiceId = responseData.data.invoice_id;
-        alert('Order submitted successfully');
-        setSelectedProducts([]);
-        setQuantities({});
-        setPrices({});
-        setCustomerName('');
-        setVatNumber('');
-        router.push(`/invoice?invoice_id=${invoiceId}`);
-      } else {
-        alert('Failed to submit order');
-      }
-    } catch (error) {
-      console.error('Error submitting order:', error);
-      alert('Error submitting order');
-    }
+  const body: RequestBody = {
+    customer_name: customerName,
+    vat_number: vatNumber,
+    location: locations,
+    product: filteredProducts,
+    quantity: filteredProducts.map((_, i) => parseInt(quantities[i]) || 1),
+    price: filteredProducts.map((_, i) => parseFloat(prices[i]) || 0),
+    branch: branch,
+    branch_category: branchCategory,
   };
+
+  try {
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTEyMjE0ZmEwOTdkNTY5ZDgyZDhkNTk1MTM5ZDA5MGY2MDExNGIxMDg5MjRkZmQ4ODIzMjg2N2E3NTE4YjJlNDY1ZjliNTZlZmY4ODg4NTQiLCJpYXQiOjE3NTM2NDkxNjEuNzk0NDE0MDQzNDI2NTEzNjcxODc1LCJuYmYiOjE3NTM2NDkxNjEuNzk0NDE1OTUwNzc1MTQ2NDg0Mzc1LCJleHAiOjE3ODUxODUxNjEuNzg5MDUyMDA5NTgyNTE5NTMxMjUsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.AusU_r0xuFaQWDcBmCkRcLBdVazjSSlELQAk_cO6tDFEqBiW_pfguVRE3mVic5-wPzNwvSgf_xe-hQkaNVHwMSeU99uR7TMlQT57AKSm4TPcIOO5LQVmk7mFYmFfozFdM1XYR2atXOXJVfL9hkCVH0Ge0jxQuc5KqXolQ-DWsqo6ZNBq5yTJyFISlBHYxBI-pYkQlR8s2WMTKbd4wvzwaWC2Nrg2HDCLL6XE1jwsP3VNRXRo5IB1ic_OCVrRd07hg8Vjx99mTxQaeg4VNeu6-gDmiYrxMWBpQIqrqWIc_8A9NQhqbR7CpY_xSpdvARspT4y1b1RltW10va12xxODJN-j2F_JOhDtcud-rDq-cNXYDE-MANgaandSvaZMdKrCBctFHg3YaCVQ_VWu9Yfz5YWtu4-9OnlFfYU1Y4CItNcVeOB9cOYLCaS4agW3CrT-jhDyREnfOTdxutIAsZY2D9n4FbTVBQqU5v5wjSCpSQwQeSWbIvFj_mBiTcW2Neqg9K4Kv3e21nSJ4Ra9MCPK8gnIXgF_Ar02X3tU0TY9rCu2DapLyy2rA6hR1ngI7SmhhDZtTREvAcaTKmG_PnXBp3TzPwiw4pOesQPlLmdoUJWI3RtAdqfA592TS3EoV9j75cZ5PPLu78oYzDY_7QRYP4AVh6lt7dOEjJc8n52-gI0'; // Replace with actual token securely
+
+    const res = await fetch('https://testing.algowzaa.online/api/invoice/create', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (res.ok) {
+      const responseData = await res.json();
+      const invoiceId = responseData?.data?.invoice_id;
+
+      alert('Order submitted successfully');
+      setSelectedProducts([]);
+      setQuantities({});
+      setPrices({});
+      setCustomerName('');
+      setVatNumber('');
+      setLocations('');
+      setBranch('');
+      setBranchCategory('');
+
+      router.push(`/invoice?invoice_id=${invoiceId}`);
+    } else {
+      const errorData = await res.json();
+      console.error('Submit failed:', errorData);
+      alert('Failed to submit order');
+    }
+  } catch (error) {
+    console.error('Error submitting order:', error);
+    alert('Error submitting order');
+  }
+};
+
 
   if (loading) return <div className="p-6 text-center">Loading products...</div>;
   if (error) return <div className="p-6 text-center text-red-500">Error: {error}</div>;
@@ -680,7 +759,7 @@ console.log( "Token from Async storage. ----->",token)
         </div>
       </div>
 
-      {selectedTab === "home" && (
+      {/* {selectedTab === "home" && (
         <div className="w-full px-4 md:px-8 lg:px-16 py-6 text-black">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
@@ -750,7 +829,82 @@ console.log( "Token from Async storage. ----->",token)
             </div>
           </form>
         </div>
-      )}
+      )} */}
+
+      {selectedTab === "home" && (
+  <div className="w-full px-4 md:px-8 lg:px-16 py-6 text-black">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
+        <h2 className="text-lg font-semibold mb-4">Customer Details</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <input type="text" placeholder="Customer Name" value={customerName} onChange={(e) => setCustomerName(e.target.value)} className="border bg-white border-black rounded p-3 w-full text-black shadow-sm focus:ring-2 focus:ring-blue-500" required />
+          <input type="text" placeholder="VAT Number" value={vatNumber} onChange={(e) => setVatNumber(e.target.value)} className="border bg-white border-black rounded p-3 w-full text-black shadow-sm focus:ring-2 focus:ring-blue-500" required />
+          <input type="text" placeholder="Location" value={locations} onChange={(e) => setLocations(e.target.value)} className="border border-black rounded p-3 w-full text-black shadow-sm bg-gray-200" required />
+          <input type="text" placeholder="Building Number" className="border bg-white border-black rounded p-3 w-full text-black shadow-sm" />
+          <input type="text" placeholder="Postal Code" className="border bg-white border-black rounded p-3 w-full text-black shadow-sm" />
+          <input type="text" placeholder="District" className="border bg-white border-black rounded p-3 w-full text-black shadow-sm" />
+          <input type="text" placeholder="Branch" value={branch} onChange={(e) => setBranch(e.target.value)} className="border bg-white border-black rounded p-3 w-full text-black shadow-sm" required />
+          <input type="text" placeholder="Branch Category" value={branchCategory} onChange={(e) => setBranchCategory(e.target.value)} className="border bg-white border-black rounded p-3 w-full text-black shadow-sm" required />
+          <div className="md:col-span-3 flex justify-end">
+            <button onClick={() => alert('User saved!')} type="button" className="bg-blue-600 text-white px-5 py-2 rounded shadow hover:bg-blue-700 w-full md:w-auto">Save</button>
+          </div>
+        </div>
+      </div>
+
+      {selectedProducts.map((selected, idx) => (
+        <div key={idx} className="bg-white rounded-lg shadow-md border border-gray-300 p-6 mb-6">
+          <div className="text-lg font-semibold text-gray-700 mb-4">Product {idx + 1}</div>
+          <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 items-center">
+            <div className="flex-1 w-full">
+              <Listbox value={selected} onChange={(val) => handleProductChange(val, idx)}>
+                <div className="relative w-full">
+                  <Listbox.Button className="relative w-full cursor-default rounded border border-black bg-white py-3 pl-3 pr-10 text-left shadow-sm focus:ring-2 focus:ring-blue-500 text-black">
+                    <span className="block truncate">
+                      {productsList.find((p) => p.id === selected)?.name_en || 'Select product'}
+                    </span>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </span>
+                  </Listbox.Button>
+                  <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black">
+                    {productsList.map((product) => (
+                      <Listbox.Option key={product.id} value={product.id} className={({ active }) => `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}`}>
+                        {({ selected }) => (
+                          <>
+                            <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>{product.name_en}</span>
+                            {selected && (
+                              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                              </span>
+                            )}
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </div>
+              </Listbox>
+            </div>
+
+            <input type="number" min={1} placeholder="Quantity" value={quantities[idx] || ''} onChange={(e) => handleQuantityChange(e, idx)} className="border border-black rounded p-3 flex-1 w-full text-black shadow-sm focus:ring-2 focus:ring-blue-500" required />
+            <input type="number" min={0} step={0.01} placeholder="Price" value={prices[idx] || ''} onChange={(e) => handlePriceChange(e, idx)} className="border border-black rounded p-3 flex-1 w-full text-black shadow-sm focus:ring-2 focus:ring-blue-500" required />
+            <button type="button" onClick={() => removeProductRow(idx)} className="text-red-600 hover:text-red-800 self-start md:self-auto" title="Remove product">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m4-2h2a1 1 0 011 1v1H8V6a1 1 0 011-1z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      ))}
+
+      <div className="flex justify-end space-x-4 mt-6">
+        <button type="button" onClick={addProductRow} className="bg-blue-600 text-white px-5 py-3 rounded shadow hover:bg-blue-700 transition">+ Add Product</button>
+        <button type="submit" className="bg-green-600 text-white px-6 py-3 rounded shadow hover:bg-green-700 transition">Submit Order</button>
+      </div>
+    </form>
+  </div>
+)}
+
 
       {selectedTab === "products" && <ProductCrudTable />}
     </div>

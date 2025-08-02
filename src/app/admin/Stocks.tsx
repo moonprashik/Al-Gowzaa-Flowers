@@ -2173,7 +2173,7 @@ export default function StocksPopup({ open, onClose }: Props) {
                     type="text"
                     value={settledSearchTerm}
                     onChange={(e) => setSettledSearchTerm(e.target.value)}
-                    placeholder="Search product..."
+                    placeholder="Search Seller..."
                     className="w-full px-4 py-2 border rounded-md text-sm"
                   />
                 </div>

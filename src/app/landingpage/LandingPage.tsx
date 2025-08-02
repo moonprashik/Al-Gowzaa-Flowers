@@ -556,58 +556,118 @@ const Home: React.FC = () => {
    // Main Function to login Functionality modify this only
  
 
-   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  //  const handleLogin = async (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    let valid = true;
-    setError('');
+  //   let valid = true;
+  //   setError('');
 
-    if (!email.trim()) {
-      setEmailError(true);
-      valid = false;
-    } else {
-      setEmailError(false);
-    }
+  //   if (!email.trim()) {
+  //     setEmailError(true);
+  //     valid = false;
+  //   } else {
+  //     setEmailError(false);
+  //   }
 
-    if (!password.trim()) {
-      setPasswordError(true);
-      valid = false;
-    } else {
-      setPasswordError(false);
-    }
+  //   if (!password.trim()) {
+  //     setPasswordError(true);
+  //     valid = false;
+  //   } else {
+  //     setPasswordError(false);
+  //   }
 
-    if (!valid) return;
+  //   if (!valid) return;
 
-    try {
-      const res = await fetch('https://testing.algowzaa.online/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+  //   try {
+  //     const res = await fetch('https://testing.algowzaa.online/api/login', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //     });
 
-      const result = await res.json();
+  //     const result = await res.json();
 
-      if (result.status && result.data.token) {
-        localStorage.setItem('token', result.data.token);
-        localStorage.setItem('role', result.data.user.role);
+  //     if (result.status && result.data.token) {
+  //        localStorage.setItem('token', result.data.token);
+  //       //localStorage.setItem('token', JSON.stringify(result.data.token));
 
-        if (result.data.user.role === 'admin') {
-          router.push('/home');
-        } else if (result.data.user.role === 'salesperson') {
-          router.push('/dashboard/salesperson');
-        } else {
-          setError('Unsupported role');
-        }
+  //       localStorage.setItem('role', result.data.user.role);
+
+  //       if (result.data.user.role === 'admin') {
+  //         router.push('/home');
+  //       } else if (result.data.user.role === 'salesperson') {
+  //         router.push('/dashboard/salesperson');
+  //       } else {
+  //         setError('Unsupported role');
+  //       }
+  //     } else {
+  //       setError('Invalid credentials');
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     setError('Login failed');
+  //   }
+  // };
+
+  const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  let valid = true;
+  setError('');
+
+  if (!email.trim()) {
+    setEmailError(true);
+    valid = false;
+  } else {
+    setEmailError(false);
+  }
+
+  if (!password.trim()) {
+    setPasswordError(true);
+    valid = false;
+  } else {
+    setPasswordError(false);
+  }
+
+  if (!valid) return;
+
+  try {
+    const res = await fetch('https://testing.algowzaa.online/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const result = await res.json();
+
+    if (result.status && result.data.token) {
+      const actualToken = typeof result.data.token === 'object'
+        ? result.data.token.token
+        : result.data.token;
+
+      localStorage.setItem('token', actualToken);
+      localStorage.setItem('role', result.data.user.role);
+
+      if (result.data.user.role === 'admin') {
+        router.push('/home');
+      } else if (result.data.user.role === 'salesperson') {
+        router.push('/dashboard/salesperson');
       } else {
-        setError('Invalid credentials');
+        setError('Unsupported role');
       }
-    } catch (err) {
-      console.error(err);
-      setError('Login failed');
+    } else {
+      setError('Invalid credentials');
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setError('Login failed');
+  }
+};
+
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     setShowSecondPopup(true);

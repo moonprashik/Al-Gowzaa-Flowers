@@ -1,15 +1,15 @@
 import React from 'react'
 
 //import LandingPage from './landingpage/page'
-//import DotMatrix from './dotmatrix/page'
-import Admin from './admin/page'
+import DotMatrix from './dotmatrix/page'
+//import Admin from './admin/page'
 
 export default function page() {
   
   return (
-  //  <DotMatrix/>
+    <DotMatrix/>
   //<LandingPage/>
-  <Admin/>
+  //<Admin/>
   )
 }
 

@@ -29,8 +29,8 @@ console.log( "Token from Async storage. ----->",token)
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiN2QwYWRjYjQwNTJiZjg3YmRjOTlhZGU4YjBlYWRhMDY4NDRiYjg5M2NjNWEyYTI5MDQ2MjQxYmI4YzUzZWY5NjdmMzQ1NjcxN2M2NzVhMDUiLCJpYXQiOjE3NTE3ODgzNjMuNjU0MDUwMTExNzcwNjI5ODgyODEyNSwibmJmIjoxNzUxNzg4MzYzLjY1NDA1MjAxOTExOTI2MjY5NTMxMjUsImV4cCI6MTc4MzMyNDM2My42NDk2NjAxMTA0NzM2MzI4MTI1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.igdSA4vkVzbcutbdZ-5LQ1BHL_clASYcx_6QtnAcPocvWHFx_jGh2ViYMDvpuvNqFGMNall1KETKnp3C39C78XQSuetH5qDrpeAPcbPLUH6eqJ3EVSxo-vy64PyUm-yZ_qqyaSCVEAVbvLlvGPuAcLmfI081usjQsbKyDgRyFKEZrk37U_mveM2jWnYsn8T9L7BejYtGcj8CBHG4cT3O4oDumdRez1AQjP5LklvD3i74-npRx1W-qj48-35RzxFGOai5NVahUErerCYh5DxDD2ChDjEgFBm4nDFO5HTGGrLqBkRnJo3MD8mN5BC2VIFT5lFL8XG7o4c6QpnNZ1NPeE6YsV1Yy9pcoAj74xs3vq-mpHkm-o7DVyTpjGoiW4Br77n3C6IAKciSFcpjEZuXaxWpJ4yKdrxomk8hwrFscP7UbHMsHcFi54HuxkJ0fRmyyuKeT75gAx-eefQvI7QpOFJOcKpc39MOgDkpZN7fDM9Xak_wd3RypEZE24D7X6y_sTq15Ug60qsMUC3UWsQccil5nnW4wuRzh5ajGrCPhazAzrfiFLjZwhPfNdDAqbThBg-IZChrEEtje1vhuw_LQXDdsaBHbepfTPJ2ADPFhHBpg8JaLGa0PQrIDdx0DWnH-BVmIRLEU28rGOEsf4NPX6Wlli3_cavmUxB9-J_VABw';
-      const response = await fetch("https://testing.algowzaa.online/api/products",{
+       //const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYmNjMGQ3NWZhMWYxYmE4ZTgxOTFiOTQ3MTBiZTk1ZjJlZjE5NDRhNzU0N2NmMThhODVlODA4MGIwZTZiZTMwNzFiOWRjOTkzMzEyODFlOTIiLCJpYXQiOjE3NTQzMDE0OTYuMDY4ODA5OTg2MTE0NTAxOTUzMTI1LCJuYmYiOjE3NTQzMDE0OTYuMDY4ODExODkzNDYzMTM0NzY1NjI1LCJleHAiOjE3ODU4Mzc0OTYuMDY0MDQ5OTU5MTgyNzM5MjU3ODEyNSwic3ViIjoiMSIsInNjb3BlcyI6W119.JMKznvUT4GQKxJs6O5ye2qkeCst6iVmcTd8NKTEhBu_Btp0rm0SYRN5NTt8OrEF8s7g7pvRJD8Nt6knAmH9luzevY5ezGKeozq3ZRs9-o_XIhV_SvUmAs6KwyV4-jvcNYntPLZ-KDJETANeUTtduaOdXtasp61GsOriUiywp597k0A7tXsPbQ-znNqTkoMTYObJCnpMoM2k7lxPBQesg7wfrY7RjCXkVs93kZuhwmPGX3rsrEIL4mXvj28daSEC1ISr8rGsRslrBuecpDmCQPwtD10qA8QSGd9-VqdXjOXOXRrd3t-ZFWiflHTyaKeKvzUS4j0ioRJhm-XIZmFvB2gFY4EcsiNEjEaKTfdNf1iaAwBDZ2qZGamuKQ8sKMA1oMyUL_FitxUGEIbPh0_C3TwdGEvhbjf-rYXSMC0mfoA7hN5Ry5SC3Yk0yb_4k1rkUAZppXLhFjtDytyqq9HCdHsfbUWfHOHy1cEnCBc8R-JbksZiRgUY-LPFdp_pxr1XxjEb7o1u_4-Rn_KJBJ5tAwSbI7dVSdm6GrQ_N3K99jit9rDVywUyotTvl-x9pkfIEldGfmTw_vQnqKEhcAFUH2NTP32--jSDhlEopRTHgaLFlnyzOcbYw_SQnse5ukXWt2I-vNaB6bYN6egl84ymG2Ct4KeqL-9GQi0kylzSWjLs';
+      const response = await fetch("https://testing.algowzaa.online/api/products/all",{
          method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -55,8 +55,15 @@ console.log( "Token from Async storage. ----->",token)
   const handleAddProduct = async () => {
     if (!newProduct.name_en.trim() && !newProduct.name_ar.trim()) return;
     try {
-      await axios.post("https://testing.algowzaa.online/api/products/create", newProduct);
+      
+      await axios.post("https://testing.algowzaa.online/api/products/create", newProduct,{
+        headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      });
       await fetchProducts();
+      
       setNewProduct({ name_en: "", name_ar: "" });
       setSuccess("Product added successfully");
       setError(null);
@@ -67,7 +74,12 @@ console.log( "Token from Async storage. ----->",token)
 
   const handleDeleteProduct = async (id: string) => {
     try {
-      await axios.delete(`https://testing.algowzaa.online/api/products/delete/${id}`);
+      await axios.delete(`https://testing.algowzaa.online/api/products/delete/${id}`,{
+        headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      });
       setProducts(products.filter((p) => p.id !== id));
       setSuccess("Product deleted successfully");
       setError(null);
@@ -78,7 +90,9 @@ console.log( "Token from Async storage. ----->",token)
 
   const handleUpdateProduct = async (id: string) => {
     try {
-      await axios.put(`https://testing.algowzaa.online/api/products/update/${id}`, editingValues);
+      await axios.put(`https://testing.algowzaa.online/api/products/update/${id}`, editingValues, {
+        
+      });
       setProducts(products.map((p) => (p.id === id ? { ...p, ...editingValues } : p)));
       setEditingId(null);
       setSuccess("Product updated successfully");
